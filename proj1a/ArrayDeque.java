@@ -141,7 +141,7 @@ public class ArrayDeque<T> {
             not_resized = true;
             return out;
         }
-
+        if (baseArr[front] == null) front = getNext(front);
         out = baseArr[front];
         baseArr[front] = null;
         size --;
@@ -174,7 +174,7 @@ public class ArrayDeque<T> {
             not_resized = true;
             return out;
         }
-
+        if (baseArr[back] == null) back = getPev(back);
         out = baseArr[back];
         baseArr[back] = null;
         if (back == baseArr.length - 1) {
