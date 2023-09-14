@@ -238,6 +238,7 @@ public class ArrayDeque<T> {
     }
 
     public T get(int index) {
+        T out = null;
         if (index < 0 || index >= size) {
             return null; // Index out of bounds
         }
@@ -248,6 +249,7 @@ public class ArrayDeque<T> {
         }
         while (index >= 0) {
             if (baseArr[tempfront] != null) {
+                out = baseArr[tempfront];
                 tempfront = getNext(tempfront);
                 index --;
 
@@ -256,7 +258,7 @@ public class ArrayDeque<T> {
                 index --;
             }
         }
-        return baseArr[tempfront];
+        return out;
 
     }
 
