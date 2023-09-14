@@ -122,6 +122,7 @@ public class ArrayDeque<T> {
 
     public T removeFirst() {
         if (size == 0) return null;
+        firstFront = false;
         T out;
 
         if (size == 1) {
@@ -182,6 +183,7 @@ public class ArrayDeque<T> {
 
     public T removeLast() {
         if (size == 0) return null;
+        firstBack = false;
         T out;
 
         if (size == 1) {
@@ -259,7 +261,6 @@ public class ArrayDeque<T> {
             }
         }
         return out;
-
     }
 
 }
