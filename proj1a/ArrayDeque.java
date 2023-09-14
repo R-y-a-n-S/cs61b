@@ -141,10 +141,37 @@ public class ArrayDeque<T> {
             not_resized = true;
             return out;
         }
+
         if (baseArr[front] == null) front = getNext(front);
         out = baseArr[front];
         baseArr[front] = null;
         size --;
+
+        // resize
+        if (size == baseArr.length / 2) {
+            T[] shrink =  (T[]) new Object[baseArr.length / 2];
+            T frontEle = baseArr[front];
+            T backEle = baseArr[back];
+            int index = 0;
+            for (T ele : baseArr) {
+                if (ele != null) {
+                    shrink[index] = ele;
+                    index ++;
+                }
+            }
+            for (int i = 0; i < shrink.length; i++){
+                if (shrink[i] == frontEle) front = i;
+            }
+            if (backEle == null) back = shrink.length - 1;
+            else {
+                for (int i = 0; i < shrink.length; i++){
+                    if (shrink[i] == backEle) back = i;
+                }
+            }
+            baseArr = shrink;
+        }
+
+
         if (front == 0) {
             front = baseArr.length - 1;
         } else {
@@ -177,6 +204,30 @@ public class ArrayDeque<T> {
         if (baseArr[back] == null) back = getPev(back);
         out = baseArr[back];
         baseArr[back] = null;
+
+        if (size == baseArr.length / 2) {
+            T[] shrink =  (T[]) new Object[baseArr.length / 2];
+            T frontEle = baseArr[front];
+            T backEle = baseArr[back];
+            int index = 0;
+            for (T ele : baseArr) {
+                if (ele != null) {
+                    shrink[index] = ele;
+                    index ++;
+                }
+            }
+            for (int i = 0; i < shrink.length; i++){
+                if (shrink[i] == frontEle) front = i;
+            }
+            if (backEle == null) back = shrink.length - 1;
+            else {
+                for (int i = 0; i < shrink.length; i++){
+                    if (shrink[i] == backEle) back = i;
+                }
+            }
+            baseArr = shrink;
+        }
+
         if (back == baseArr.length - 1) {
             back = 0;
         } else {
