@@ -36,7 +36,7 @@ public class ArrayDeque<T> {
             not_resized = false;
         }
 
-        if (firstFront && not_resized) {
+        if (firstFront && not_resized && baseArr[front] == null) {
             firstFront = false;
         } else {
             if (front == baseArr.length - 1) front = 0;
@@ -70,7 +70,7 @@ public class ArrayDeque<T> {
             back = 0;
             not_resized = false;
         }
-        if (firstBack && not_resized) {
+        if (firstBack && not_resized && baseArr[back] == null) {
             firstBack = false;
         } else {
             if (back == 0) back = baseArr.length - 1;
@@ -122,7 +122,6 @@ public class ArrayDeque<T> {
 
     public T removeFirst() {
         if (size == 0) return null;
-        firstFront = false;
         T out;
 
         if (size == 1) {
@@ -183,7 +182,6 @@ public class ArrayDeque<T> {
 
     public T removeLast() {
         if (size == 0) return null;
-        firstBack = false;
         T out;
 
         if (size == 1) {
