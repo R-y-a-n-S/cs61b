@@ -246,13 +246,14 @@ public class ArrayDeque<T> {
         if (back == tempfront && back == 0) {
             tempfront = getNext(tempfront);
         }
-        while (index > 0) {
+        while (index >= 0) {
             if (baseArr[tempfront] != null) {
                 tempfront = getNext(tempfront);
                 index --;
 
             }else {
                 tempfront = getNext(tempfront);
+                index --;
             }
         }
         return baseArr[tempfront];
