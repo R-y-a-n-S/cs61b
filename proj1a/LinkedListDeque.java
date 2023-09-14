@@ -1,87 +1,148 @@
 public class LinkedListDeque<T> {
-    private class GenericNode {
-        public T item;
-        public GenericNode prev;
-        public GenericNode next;
-
-        public GenericNode(GenericNode p, T item, GenericNode n) {
-            this.prev = p;
-            this.item = item;
-            this.next = n;
-        }
-    }
-
-    private int size;
-    private GenericNode sentinel;
-
+    private DLL baseLL;
     public LinkedListDeque() {
-        this.size = 0;
-        sentinel = new GenericNode(null, null, null);
-        sentinel.prev = sentinel;
-        sentinel.next = sentinel;
+        baseLL = new DLL();
     }
-
     public void addFirst(T item) {
-        GenericNode first = new GenericNode(null, item, null);
-        first.next = sentinel.next;
-        first.prev = sentinel;
-        sentinel.next.prev = first;
-        sentinel.next = first;
-        size += 1;
+        baseLL.addFirst(item);
     }
 
     public void addLast(T item) {
-        GenericNode last = new GenericNode(null, item, null);
-        last.prev = sentinel.prev;
-        last.next = sentinel;
-        sentinel.prev.next = last;
-        sentinel.prev = last;
-        size +=1;
+        baseLL.addLast(item);
     }
 
     public boolean isEmpty() {
-        return size == 0;
+        return baseLL.size == 0;
     }
 
     public int size() {
-        return size;
+        return baseLL.size;
     }
 
     public void printDeque() {
-        if (isEmpty()) return;
-        GenericNode p = sentinel;
-        while (p.next != sentinel){
-            System.out.print(p.next.item + " ");
-            p = p.next;
+        Node temp = baseLL.front;
+        for (int i = 0; i < baseLL.size; i ++) {
+            if (temp.next.item != null) {
+                System.out.print(temp.next.item);
+                if (temp.next == baseLL.last) break;
+                System.out.print(" ");
+
+            }
+            temp = temp.next;
         }
-        System.out.println();
+
+
     }
 
     public T removeFirst() {
-        if (isEmpty()) return null;
-        GenericNode first = sentinel.next;
-        sentinel.next = first.next;
-        first.next.prev = sentinel;
-        size -= 1;
-        return first.item;
+        return baseLL.removeFirst();
     }
 
     public T removeLast() {
-        if (isEmpty()) return null;
-        GenericNode last = sentinel.prev;
-        sentinel.prev = last.prev;
-        last.prev.next = sentinel;
-        size -= 1;
-        return last.item;
+        return baseLL.removeLast();
     }
 
     public T get(int index) {
-        if (index >= size) return null;
-        GenericNode p = sentinel.next;
-        while (index != 0) {
-            p = p.next;
-            index -= 1;
+        if (index >= baseLL.size || index < 0) return null;
+        Node temp = baseLL.front;
+        for ( int i = 0; i <= index; i ++) {
+            temp = temp.next;
+            if (i == index) return (T) temp.item;
         }
-        return p.item;
+        return null;
+
     }
+
+    public T getRecursive(int index) {
+        if (index < 0 || index >= baseLL.size) {
+            return null; // Index out of bounds
+        }
+        return (T) getRecursive2(index, baseLL.front.next);
+    }
+
+    private T getRecursive2(int index, Node<T> current) {
+        if (index == 0) {
+            return current.item;
+        }
+        return (T) getRecursive2(index - 1, current.next);
+    }
+
+    public class Node<T> {
+        public T item;
+        public Node next;
+        public Node prev;
+
+
+        public Node(T i, Node n, Node p) {
+            item = i;
+            next = n;
+            prev = p;
+        }
+    }
+
+    public class DLL {
+        public Node front;
+        public Node last;
+        public int size;
+        public DLL() {
+            front = new Node<>(null, null, null);
+            last = new Node<>(null, null, front);
+            front.next = last;
+            size = 0;
+        }
+        public void addFirst(T data) {
+            Node newNode = new Node<>(data,front.next,front);
+            front.next.prev = newNode;
+            front.next = newNode;
+            size ++;
+        }
+
+        public void addLast(T data) {
+            Node newNode = new Node<>(data,last,last.prev);
+            last.prev.next = newNode;
+            last.prev = newNode;
+            size ++;
+        }
+
+        public T removeFirst() {
+            if (size == 0) return null;
+            T item = (T) front.next.item;
+            Node temp = front.next.next;
+            temp.prev = front;
+            front.next.next = null;
+            front.next.prev = null;
+            front.next = temp;
+            size --;
+            return item;
+        }
+
+        public T removeLast() {
+            if (size == 0) return null;
+            T item = (T) last.prev.item;
+            Node temp = last.prev.prev;
+            temp.next = last;
+            last.prev.prev = null;
+            last.prev.next = null;
+            last.prev = temp;
+            size --;
+            return item;
+        }
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
