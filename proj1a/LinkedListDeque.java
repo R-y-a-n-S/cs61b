@@ -21,13 +21,16 @@ public class LinkedListDeque<T> {
 
     public void printDeque() {
         Node temp = baseLL.front;
-        while (temp.next != null) {
+        for (int i = 0; i < baseLL.size; i ++) {
+            if (temp.next.item != null) {
+                System.out.print(temp.next.item);
+                if (temp.next == baseLL.last) break;
+                System.out.print(" ");
 
-            System.out.print(temp.next.item);
-            if (temp.next == baseLL.last) break;
-            System.out.print(" ");
+            }
             temp = temp.next;
         }
+
 
     }
 
@@ -82,9 +85,9 @@ public class LinkedListDeque<T> {
         public Node last;
         public int size;
         public DLL() {
-            front = new Node<>(null, last, null);
+            front = new Node<>(null, null, null);
             last = new Node<>(null, null, front);
-            front = new Node<>(null, last, null);
+            front.next = last;
             size = 0;
         }
         public void addFirst(T data) {
